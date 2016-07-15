@@ -1,0 +1,12 @@
+var effectiveness = [
+	{
+		"attacker": 1,
+		"defender": 0,
+		"value": 2
+	},
+	{
+		"attacker": 0,
+		"defender": 1,
+		"value": .5
+	}
+];

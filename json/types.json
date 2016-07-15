@@ -1,0 +1,452 @@
+var types = [
+	{
+		"name": "normal",
+		"effectiveness":
+		[{
+			"attacking": 12,
+			"multiplier": 0.5
+		},{
+			"attacking": 13,
+			"multiplier": 0
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "fire",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 0.5
+		},{
+			"attacking": 2,
+			"multiplier": 0.5
+		},{
+			"attacking": 4,
+			"multiplier": 2
+		},{
+			"attacking": 5,
+			"multiplier": 2
+		},{
+			"attacking": 11,
+			"multiplier": 2
+		},{
+			"attacking": 12,
+			"multiplier": 0.5
+		},{
+			"attacking": 14,
+			"multiplier": 0.5
+		},{
+			"attacking": 16,
+			"multiplier": 2
+		}]
+	},
+	{
+		"name": "water",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 2
+		},{
+			"attacking": 2,
+			"multiplier": 0.5
+		},{
+			"attacking": 4,
+			"multiplier": 0.5
+		},{
+			"attacking": 8,
+			"multiplier": 2
+		},{
+			"attacking": 12,
+			"multiplier": 2
+		},{
+			"attacking": 14,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "electric",
+		"effectiveness":
+		[{
+			"attacking": 2,
+			"multiplier": 2
+		},{
+			"attacking": 3,
+			"multiplier": 0.5
+		},{
+			"attacking": 4,
+			"multiplier": 0.5
+		},{
+			"attacking": 8,
+			"multiplier": 0
+		},{
+			"attacking": 9,
+			"multiplier": 2
+		},{
+			"attacking": 14,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "grass",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 0.5
+		},{
+			"attacking": 2,
+			"multiplier": 2
+		},{
+			"attacking": 4,
+			"multiplier": 0.5
+		},{
+			"attacking": 7,
+			"multiplier": 0.5
+		},{
+			"attacking": 8,
+			"multiplier": 2
+		},{
+			"attacking": 9,
+			"multiplier": 0.5
+		},{
+			"attacking": 11,
+			"multiplier": 0.5
+		},{
+			"attacking": 12,
+			"multiplier": 2
+		},{
+			"attacking": 14,
+			"multiplier": 0.5
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "ice",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 0.5
+		},{
+			"attacking": 2,
+			"multiplier": 0.5
+		},{
+			"attacking": 4,
+			"multiplier": 2
+		},{
+			"attacking": 5,
+			"multiplier": 0.5
+		},{
+			"attacking": 8,
+			"multiplier": 2
+		},{
+			"attacking": 9,
+			"multiplier": 2
+		},{
+			"attacking": 14,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "fighting",
+		"effectiveness":
+		[{
+			"attacking": 0,
+			"multiplier": 2
+		},{
+			"attacking": 5,
+			"multiplier": 2
+		},{
+			"attacking": 7,
+			"multiplier": 0.5
+		},{
+			"attacking": 9,
+			"multiplier": 0.5
+		},{
+			"attacking": 10,
+			"multiplier": 0.5
+		},{
+			"attacking": 11,
+			"multiplier": 0.5
+		},{
+			"attacking": 12,
+			"multiplier": 2
+		},{
+			"attacking": 13,
+			"multiplier": 0
+		},{
+			"attacking": 15,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 2
+		},{
+			"attacking": 17,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "poison",
+		"effectiveness":
+		[{
+			"attacking": 4,
+			"multiplier": 2
+		},{
+			"attacking": 7,
+			"multiplier": 0.5
+		},{
+			"attacking": 8,
+			"multiplier": 0.5
+		},{
+			"attacking": 12,
+			"multiplier": 0.5
+		},{
+			"attacking": 13,
+			"multiplier": 0.5
+		},{
+			"attacking": 16,
+			"multiplier": 0
+		},{
+			"attacking": 17,
+			"multiplier": 2
+		}]
+	},
+	{
+		"name": "ground",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 2
+		},{
+			"attacking": 3,
+			"multiplier": 2
+		},{
+			"attacking": 4,
+			"multiplier": 0.5
+		},{
+			"attacking": 7,
+			"multiplier": 2
+		},{
+			"attacking": 9,
+			"multiplier": 0
+		},{
+			"attacking": 11,
+			"multiplier": 0.5
+		},{
+			"attacking": 12,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 2
+		}]
+	},
+	{
+		"name": "flying",
+		"effectiveness":
+		[{
+			"attacking": 3,
+			"multiplier": 0.5
+		},{
+			"attacking": 4,
+			"multiplier": 2
+		},{
+			"attacking": 6,
+			"multiplier": 2
+		},{
+			"attacking": 11,
+			"multiplier": 2
+		},{
+			"attacking": 12,
+			"multiplier": 0.5
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "psychic",
+		"effectiveness":
+		[{
+			"attacking": 6,
+			"multiplier": 2
+		},{
+			"attacking": 7,
+			"multiplier": 2
+		},{
+			"attacking": 10,
+			"multiplier": 0.5
+		},{
+			"attacking": 15,
+			"multiplier": 0
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "bug",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 0.5
+		},{
+			"attacking": 4,
+			"multiplier": 2
+		},{
+			"attacking": 6,
+			"multiplier": 0.5
+		},{
+			"attacking": 7,
+			"multiplier": 0.5
+		},{
+			"attacking": 9,
+			"multiplier": 0.5
+		},{
+			"attacking": 10,
+			"multiplier": 2
+		},{
+			"attacking": 13,
+			"multiplier": 0.5
+		},{
+			"attacking": 15,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		},{
+			"attacking": 17,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "rock",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 2
+		},{
+			"attacking": 5,
+			"multiplier": 2
+		},{
+			"attacking": 6,
+			"multiplier": 0.5
+		},{
+			"attacking": 8,
+			"multiplier": 0.5
+		},{
+			"attacking": 9,
+			"multiplier": 2
+		},{
+			"attacking": 11,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "ghost",
+		"effectiveness":
+		[{
+			"attacking": 0,
+			"multiplier": 0
+		},{
+			"attacking": 10,
+			"multiplier": 2
+		},{
+			"attacking": 13,
+			"multiplier": 2
+		},{
+			"attacking": 15,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "dragon",
+		"effectiveness":
+		[{
+			"attacking": 14,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		},{
+			"attacking": 17,
+			"multiplier": 0
+		}]
+	},
+	{
+		"name": "dark",
+		"effectiveness":
+		[{
+			"attacking": 6,
+			"multiplier": 0.5
+		},{
+			"attacking": 10,
+			"multiplier": 2
+		},{
+			"attacking": 13,
+			"multiplier": 2
+		},{
+			"attacking": 15,
+			"multiplier": 0.5
+		},{
+			"attacking": 17,
+			"multiplier": 0.5
+		}]
+	},
+	{
+		"name": "steel",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 0.5
+		},{
+			"attacking": 2,
+			"multiplier": 0.5
+		},{
+			"attacking": 3,
+			"multiplier": 0.5
+		},{
+			"attacking": 5,
+			"multiplier": 2
+		},{
+			"attacking": 12,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		},{
+			"attacking": 17,
+			"multiplier": 2
+		}]
+	},
+	{
+		"name": "fairy",
+		"effectiveness":
+		[{
+			"attacking": 1,
+			"multiplier": 0.5
+		},{
+			"attacking": 6,
+			"multiplier": 2
+		},{
+			"attacking": 7,
+			"multiplier": 0.5
+		},{
+			"attacking": 14,
+			"multiplier": 2
+		},{
+			"attacking": 15,
+			"multiplier": 2
+		},{
+			"attacking": 16,
+			"multiplier": 0.5
+		}]
+	}
+];
