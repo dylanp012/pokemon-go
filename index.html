@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-3.1.0.min.js"></script>
+<script src="json/types.json"></script>
+<script src="json/effectiveness.json"></script> 
+<script src="json/pokemon.json"></script>
+<link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+<div id="pokemon-list"></div>
+<style>
+
+
+</style>
+<script>
+	$(document).ready(function () {
+	
+		var divHTML = '';
+		divHTML += '<ul>';
+		jQuery.each(pokemon, function(k, v) {
+			divHTML += '<li>';
+			divHTML += v.name + ' - #' + v.index;
+			divHTML += '<br />';
+			divHTML += '<a href="details.html?id=' + v.index + '"><img src="images/' + v.index + '.jpg" /></a>'; 
+			
+			divHTML += '<p><b>Type</b>';
+			
+			var ArrayOfEffectiveness = [];
+			
+			$.each(v.types, function(kk,vv) {
+				divHTML += '<br />' + getType(vv.type);
+				ArrayOfEffectiveness.push(getAllEffectiveness(vv.type));
+			});
+			divHTML += '</p>';
+			
+			var SingleArrayOfEffectiveness = [];
+			$.each(types, function(kk,vv) {
+				var curMultiplier = 1;
+				 $.each(ArrayOfEffectiveness, function(kkk, vvv) {
+ 					$.each(vvv, function (fuck, shit) {
+ 						if (vv.name == shit.name) {
+ 							curMultiplier *= Math.max(shit.effectiveness.multiplier, 0.5);
+ 						}
+ 					});
+ 				});
+ 				SingleArrayOfEffectiveness.push({"type":vv.name, "multiplier":curMultiplier});
+			});
+			
+			SingleArrayOfEffectiveness.sort(function(a, b){
+ 				return b.multiplier-a.multiplier
+			});
+			
+			divHTML += '<p><b>Attacked By</b>';
+			
+			$.each(SingleArrayOfEffectiveness, function(kk, vv) {
+				divHTML += "<br />" + vv.type + " @ " + vv.multiplier
+			});
+			
+			
+			divHTML += '</p>';
+			
+			divHTML += '</li>';
+		});
+		divHTML += '</ul>';
+		$("#pokemon-list").html(divHTML);
+		
+	});
+function getAllEffectiveness( index ) {
+	var rtn = [];
+	$.each(types, function(k,v) {
+		$.each(v.effectiveness, function(kk,vv) {
+			if (vv.attacking == index) {
+				rtn.push({"name":v.name, "effectiveness":vv});
+			}
+		});
+	});
+	return rtn;
+}
+
+
+function getAttackWithType( index ) {
+	var rtn = "";
+	$.each(types, function(k,v) {
+		$.each(v.effectiveness, function(kk,vv) {
+			if (vv.multiplier > 1)
+			{
+				if (vv.attacking == index) {
+					rtn += "<br />" + v.name + "@" + vv.multiplier;
+				}
+			}
+		});
+	});
+	
+	// $.each(types[index].effectiveness, function(k, v) {
+// 		if (v.multiplier > 1) {
+// 			rtn += "<br />" + getType(v.attacking) + "@" + v.multiplier;
+// 		}	
+// 	});
+	return rtn;
+}
+
+function getDontAttackWithType( index ) {
+	var rtn = "";
+	$.each(types, function(k,v) {
+		$.each(v.effectiveness, function(kk,vv) {
+			if (vv.multiplier < 1)
+			{
+				if (vv.attacking == index) {
+					rtn += "<br />" + v.name + "@" + vv.multiplier;
+				}
+			}
+		});
+	});
+	return rtn;
+}
+
+function getType( index ) {
+	var rtn = "";
+	rtn = types[index].name;
+	return rtn;
+}
+
+function getIndexOfType(name) {
+	var rtn = -1;
+	$.each(types, function(k, v) {
+		//console.log(k + " - " + v.name);
+		if (v.name == name) {
+			rtn = k; 
+		}
+	});
+
+	return rtn;
+}
+
+function getValueOfEffectiveness( attacker, defender ) {
+	var rtn = 1;
+	var indexOfAttacker = getIndexOfType(attacker);
+	var indexOfDefender = getIndexOfType(defender);
+
+	jQuery.each(effectiveness, function(k, v) {
+		if ((v.attacker == indexOfAttacker) && (v.defender == indexOfDefender)) {
+			rtn = v.value;
+		}
+	});
+	
+	return rtn;
+}
+</script>
+
+</body>
+</html>
