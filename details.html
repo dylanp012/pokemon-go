@@ -8,12 +8,10 @@
 <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
-<img id="pokeimage" src="" />
-
+<div id="pokemon-list"></div>
 <script>
 	$(document).ready(function () {
 		var id = getUrlVars()["id"];
-		$("#pokeimage").attr('src','images/' + id + '.jpg');
 		
 	
 	
@@ -33,6 +31,8 @@
 		var divHTML = '';
 		divHTML += '<ul>';
 		jQuery.each(pokemon, function(k, v) {
+			if (v.index == id)
+			{
 			divHTML += '<li>';
 			divHTML += v.name + ' - #' + v.index;
 			divHTML += '<br />';
@@ -67,14 +67,41 @@
 			
 			divHTML += '<p><b>Attacked By</b>';
 			
+			
+			var ArrayOfPokemonRating = [];
+			ArrayOfPokemonRating.push({"index":0,"rating":0});
+			for (i = 1; i <= 150; i++) { 
+    			ArrayOfPokemonRating.push({"index":i,"rating":1});
+			}
+			
 			$.each(SingleArrayOfEffectiveness, function(kk, vv) {
-				divHTML += "<br />" + vv.type + " @ " + vv.multiplier
+				$.each(pokemon, function(k1, v1) {
+					$.each(v1.types, function(k2, v2) {
+						if (v2.type == getIndexOfType(vv.type)) {
+							ArrayOfPokemonRating[v1.index].rating *= vv.multiplier;
+						}
+					});
+				});
+				
+				
 			});
 			
+			ArrayOfPokemonRating.sort(function(a, b){
+ 					return b.rating-a.rating
+				});
+			ArrayOfPokemonRating.pop();
+			
+				$.each(ArrayOfPokemonRating, function(k2, v2) {
+					divHTML += "<br />" + getPokemonName(v2.index) + " #" + v2.index + " @ " + v2.rating + '<img style="width:100px;" src="images/' + v2.index + '.jpg" /></a>'; 
+				});
+			
+			
+				//divHTML += "<br />" + vv.type + " @ " + vv.multiplier
 			
 			divHTML += '</p>';
 			
 			divHTML += '</li>';
+			}
 		});
 		divHTML += '</ul>';
 		$("#pokemon-list").html(divHTML);
@@ -158,6 +185,12 @@ function getValueOfEffectiveness( attacker, defender ) {
 		}
 	});
 	
+	return rtn;
+}
+
+function getPokemonName( index ) {
+	var rtn = "";
+		rtn = pokemon[index-1].name;
 	return rtn;
 }
 
