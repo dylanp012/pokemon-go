@@ -69,9 +69,9 @@
 			
 			
 			var ArrayOfPokemonRating = [];
-			ArrayOfPokemonRating.push({"index":0,"rating":0});
+			ArrayOfPokemonRating.push({"index":0,"rating":0, "breakdown":[]});
 			for (i = 1; i <= 150; i++) { 
-    			ArrayOfPokemonRating.push({"index":i,"rating":1});
+    			ArrayOfPokemonRating.push({"index":i,"rating":1, "breakdown":[]});
 			}
 			
 			$.each(SingleArrayOfEffectiveness, function(kk, vv) {
@@ -79,6 +79,7 @@
 					$.each(v1.types, function(k2, v2) {
 						if (v2.type == getIndexOfType(vv.type)) {
 							ArrayOfPokemonRating[v1.index].rating *= vv.multiplier;
+							ArrayOfPokemonRating[v1.index].breakdown.push({"type":v2.type, "rating":vv.multiplier})
 						}
 					});
 				});
@@ -92,13 +93,18 @@
 			ArrayOfPokemonRating.pop();
 			
 				$.each(ArrayOfPokemonRating, function(k2, v2) {
-					divHTML += "<br />" + getPokemonName(v2.index) + " #" + v2.index + " @ " + v2.rating + '<img style="width:100px;" src="images/' + v2.index + '.jpg" /></a>'; 
+				console.log(v2);
+					divHTML += "<p><h3>" + getPokemonName(v2.index) + " #" + v2.index + " @ " + v2.rating + '</h3><img style="width:100px;" src="images/' + v2.index + '.jpg" /></a>'; 
+					$.each(v2.breakdown, function(k3, v3) {
+						console.log(v3);
+						divHTML += "<br />" + getType(v3.type) + " @ " + v3.rating;
+					});
 				});
 			
 			
 				//divHTML += "<br />" + vv.type + " @ " + vv.multiplier
 			
-			divHTML += '</p>';
+			divHTML += '</p></p>';
 			
 			divHTML += '</li>';
 			}
